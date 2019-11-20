@@ -1,5 +1,4 @@
-import gql from 'graphql-tag';
-
+import gql from "graphql-tag";
 
 const MESSAGE_STRUCTURE = `
   id
@@ -68,7 +67,6 @@ const REJECTED_MESSAGE_SUBSCRIPTION = gql`
   }
 `;
 
-
 export default {
   APPROVED_MESSAGES_QUERY,
   APPROVED_MESSAGE_SUBSCRIPTION,
@@ -77,5 +75,5 @@ export default {
   ADD_MESSAGE_MUTATION,
   MESSAGE_SUBSCRIPTION,
   APPROVE_MESSAGE_MUTATION,
-  REJECT_MESSAGE_MUTATION,
+  REJECT_MESSAGE_MUTATION
 };

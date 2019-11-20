@@ -1,19 +1,22 @@
-import jwtDecode from 'jwt-decode';
+import jwtDecode from "jwt-decode";
 
 /**
  * Retrieves the token from the local storage.
  * @returns The token.
  */
-export const getToken = () => (window.localStorage.getItem('token') ? window.localStorage.getItem('token') : null);
+export const getToken = () =>
+  window.localStorage.getItem("token")
+    ? window.localStorage.getItem("token")
+    : null;
 /**
  * Removes the token from the local storage.
  */
-export const removeToken = () => window.localStorage.removeItem('token');
+export const removeToken = () => window.localStorage.removeItem("token");
 /**
  * Stores the token in the local storage.
  * @param {String} token The JWT token to store.
  */
-export const setToken = token => window.localStorage.setItem('token', token);
+export const setToken = token => window.localStorage.setItem("token", token);
 /**
  * Retrieves the current user from the local storage and decodes it.
  * @returns The user object or null.
@@ -37,7 +40,8 @@ export const getUser = () => {
  * @returns True if the user exists.
  */
 export const isAuthenticated = () => {
-  return true;
+  const user = getUser();
+  return user && user.role.length > 0;
 };
 
 /**
