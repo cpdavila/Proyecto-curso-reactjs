@@ -6,8 +6,6 @@ import MessageForm from '../components/MessageForm';
 const MessageList = () => {
   const { loading, error, data, refetch } = useQuery(utils.MESSAGES_QUERY);
   const subscription = useSubscription(utils.MESSAGE_SUBSCRIPTION);
-  const approvedSubscription = useSubscription(utils.APPROVED_MESSAGE_SUBSCRIPTION);
-  const rejectedSubscription = useSubscription(utils.REJECTED_MESSAGE_SUBSCRIPTION);
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
@@ -15,11 +13,11 @@ const MessageList = () => {
   }, [data]);
 
   useEffect(() => {
-    if (subscription.data || approvedSubscription.data || rejectedSubscription.data) {
+    if (subscription.data) {
       refetch();
     }
     // eslint-disable-next-line
-  }, [subscription.data, approvedSubscription.data, rejectedSubscription.data]);
+  }, [subscription.data]);
   
   if (loading) return <p>Cargando...</p>;
   if (error) return <p>{error.message}</p>;

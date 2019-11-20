@@ -11,7 +11,6 @@ export default `
   }
 
   type Mutation {
-    signIn(username: String!, password: String!): String!
     createMessage(content: String!): Message!
     approveMessage(id: ID!): Message!
     rejectMessage(id: ID!): Message!

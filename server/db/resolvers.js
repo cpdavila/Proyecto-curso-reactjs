@@ -1,6 +1,4 @@
 import { ApolloError, PubSub } from 'apollo-server-express';
-import jwt from 'jsonwebtoken';
-import utils from '../utils';
 
 const pubSub = new PubSub();
 const MESSAGE_CREATED = 'MESSAGE_CREATED';
@@ -9,18 +7,10 @@ const MESSAGE_REJECTED = 'MESSAGE_REJECTED';
 
 export default {
   Query: {
-    messages: (parent, args, { db }) => db.message.findAll({order: [['createdAt', 'DESC']]}),
-    approvedMessages: (parent, args, {db}) => db.message.findAll({where: {approved: true}, order: [['updatedAt', 'DESC']]}),
+    messages: (parent, args, { db }) => db.message.findAll(),
+    approvedMessages: (parent, args, {db}) => db.message.findAll(),
   },
   Mutation: {
-    signIn: (parent, {username, password}, {db}) => {
-      if (username === 'admin' && password === 'admin') {
-        return jwt.sign({role: 'admin'}, utils.JWT_SECRET, {
-          expiresIn: '12h',
-        });
-      }
-      throw new ApolloError('Ocurrió un error al crear el token');
-    },
     createMessage: async (parent, { content }, { db }) => {
       if (content) {
         const message = await db.message.create({content});
@@ -29,8 +19,8 @@ export default {
       }
       throw new ApolloError('Ocurrió un error al crear un mensaje');
     },
-    approveMessage: async (parent, { id }, { db, user }) => {
-      if (id && user && user.role === 'admin') {
+    approveMessage: async (parent, { id }, { db }) => {
+      if (id) {
         const message = await db.message.findByPk(id);
         if (message) {
           message.update({approved: true});
@@ -40,8 +30,8 @@ export default {
       }
       throw new ApolloError('Ocurrió un error al aprobar un mensaje');
     },
-    rejectMessage: async (parent, { id }, { db, user}) => {
-      if (id && user && user.role === 'admin') {
+    rejectMessage: async (parent, { id }, { db }) => {
+      if (id) {
         const message = await db.message.findByPk(id);
         if (message) {
           message.update({approved: false});

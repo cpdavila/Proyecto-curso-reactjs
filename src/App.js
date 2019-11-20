@@ -27,7 +27,6 @@ const App = () => {
       <Switch>
         <Route path="/" exact component={IndexPage} />
         <PrivateRoute path="/admin"  component={AdminPage} />
-        <Route path="/messages"  component={MessagesPage} />
         <Route path="*">
           <div>
             <h1>404!</h1>

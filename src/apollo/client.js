@@ -21,17 +21,6 @@ const wsLink = new WebSocketLink({
   },
 });
 
-const authLink = new ApolloLink((operation, forward) => {
-  const token = getToken();
-  if (token) {
-    operation.setContext({
-      headers: {
-        authorization: `Bearer ${token}`,
-      },
-    });
-  }
-  return forward(operation);
-});
 
 const link = split(({query}) => {
   const definition = getMainDefinition(query);
@@ -39,7 +28,7 @@ const link = split(({query}) => {
 }, wsLink, httpLink);
 
 const client = new ApolloClient({
-  link: concat(authLink, ApolloLink.from([
+  link: ApolloLink.from([
     onError(({ graphQLErrors, networkError }) => {
       if (graphQLErrors) {
         graphQLErrors.forEach(({ message, locations, path }) => {
@@ -51,7 +40,7 @@ const client = new ApolloClient({
       }
     }),
     link,
-  ])),
+  ]),
   cache: new InMemoryCache(),
 });
 

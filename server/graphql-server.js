@@ -33,10 +33,8 @@ const app = express();
 const server = new ApolloServer({
   typeDefs: gql(typeDefs),
   resolvers,
-  context: ({req}) => {
-    const token = (req && req.headers.authorization) || '';
-    const user = getUser(token);
-    return { db, user };
+  context: () => {
+    return { db };
   },
 });
 server.applyMiddleware({ app });

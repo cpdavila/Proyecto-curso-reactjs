@@ -8,7 +8,6 @@ import utils from '../utils';
 const ApprovedMessageList = ({initialMessages}) => {
   const [messages, setMessages] = useState([...initialMessages]);
   const approvedSubscription = useSubscription(utils.APPROVED_MESSAGE_SUBSCRIPTION);
-  const rejectedSubscription = useSubscription(utils.REJECTED_MESSAGE_SUBSCRIPTION);
 
   useEffect(() => {
     if (approvedSubscription.data && !messages.map(m => m.id).find(m => m === approvedSubscription.data.messageApproved.id)) {
@@ -17,12 +16,6 @@ const ApprovedMessageList = ({initialMessages}) => {
     // eslint-disable-next-line
   }, [approvedSubscription.data]);
   
-  useEffect(() => {
-    if (rejectedSubscription.data) {
-      setMessages(messages.filter(m => m.id !== rejectedSubscription.data.messageRejected.id));
-    }
-    // eslint-disable-next-line
-  }, [rejectedSubscription.data]);
 
   return (
     <ul className="flex flex-col flex-1 justify-end h-full">
