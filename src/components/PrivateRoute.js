@@ -15,6 +15,7 @@ const SIGN_IN_MUTATION = gql`
 const PrivateRoute = ({ component: Component, ...rest }) => {
   const [signIn, signInData] = useMutation(SIGN_IN_MUTATION);
   const [state, setState] = useReducer((s, a) => ({ ...s, ...a }), {
+    status: false,
     username: "",
     password: ""
   });
@@ -22,6 +23,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
   useEffect(() => {
     if (signInData.data) {
       setToken(signInData.data.signIn);
+      setState({ status: true });
     }
   }, [signInData.data]);
 
